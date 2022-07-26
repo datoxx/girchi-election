@@ -1,0 +1,28 @@
+.App {
+  padding: 50px 50px 400px 50px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.VoterArray > fieldset > .array-item-list {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-left: calc(-0.5 * (100vw - min(600px, 100vw)) - 50px);
+  width: 100vw;
+  overflow-x: scroll;
+}
+
+.VoterArray > fieldset > .array-item-list > .array-item {
+  min-width: 430px;
+}
+
+.Candidate {
+  float: left;
+  width: 70px;
+  margin-right: 10px;
+}
+
+.CandidatePercent {
+  float: left;
+  width: 70px;
+}
