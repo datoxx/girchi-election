@@ -22,10 +22,7 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
   })
 
 
-app.use('/election-form', express.static('public'));
-
 app.use('/', elecion);
-
 
 
 app.listen(PORT, () => {

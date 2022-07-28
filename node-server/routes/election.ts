@@ -1,5 +1,4 @@
 import express from 'express';
-// const path = require('path');
 const Vote = require('../models/vote')
 import { solve, Vote } from "../solveLogic";
 
@@ -19,10 +18,6 @@ router.post('/election', async (req, _res) => {
   await vote.save();
 
 });
-
-// router.get('/election-form', (_req, _res) => {
-//   res.sendFile(path.resolve('public/index.html'));
-// });
 
 router.get('/calculate', async (_req, res) => {
   const votes = await Vote.find({}, { vote: 1, _id: 0 } );
