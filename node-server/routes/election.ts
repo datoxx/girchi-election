@@ -6,7 +6,7 @@ import { solve, Vote } from "../solveLogic";
 const router = express.Router();
 
 router.post('/election', async (req, res) => {
-  const body = req.body[0];
+  const body = req.body;
   // am momentistvis uuids ar viyeneb ukve arsebuli vouterebis sanaxavad bazaSi.
   const generatedId = uuid();
   console.log("generirebuli id",generatedId);

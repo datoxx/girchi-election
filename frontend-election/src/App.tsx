@@ -8,49 +8,38 @@ import ReactMarkdown from "react-markdown";
 
 
 const schema = {
-  type: "array",
-  title: "Election simulator",
-  description: "Fill simulation voters and there detauls",
-  minItems: 1,
-  items: {
-    title: "Voter",
-    description: "Fill voter details here",
-    type: "object",
-    required: ["voter", "weight", "order"],
-    properties: {
-      voter: {
-        type: "string",
-        title: "Name",
-        default: "Alisa",
-      },
-      weight: {
-        type: "number",
-        title: "Weight",
-        default: 100,
-      },
-      order: {
+  title: "Girchi Election",
+  description: "Fill  name and gade for vote gircho candidates",
+  type: "object",
+  required: ["voter", "weight", "order"],
+  properties: {
+    voter: {
+      type: "string",
+      title: "Name",
+    },
+    weight: {
+      type: "number",
+      title: "Weight",
+    },
+    order: {
+      type: "array",
+      title: "Candidates order",
+      minItems: 1,
+      items: {
         type: "array",
-        title: "Candidates order",
         minItems: 1,
         items: {
-          default: ["A"],
-          type: "array",
-          minItems: 1,
-          items: {
-            type: "object",
-            properties: {
-              candidate: {
-                type: "string",
-                title: "Candidate",
-                default: "A",
-              },
-              percent: {
-                type: "number",
-                title: "Percent",
-                default: 100,
-                minimum: 0,
-                maximum: 100,
-              },
+          type: "object",
+          properties: {
+            candidate: {
+              type: "string",
+              title: "Candidate",
+            },
+            percent: {
+              type: "number",
+              title: "Percent",
+              minimum: 0,
+              maximum: 100,
             },
           },
         },
@@ -97,7 +86,7 @@ function App() {
   let sendElectionData = async (res:any) => {
     setFormData(res.formData);
     localStorage.setItem("electionInput", JSON.stringify(res.formData));
-    console.log(res.formData);
+    console.log('dasabmitebuli', res.formData);
     const electionData = await axios.post("http://localhost:8888/election", res.formData);
     const data = electionData.data
     console.log("pasuxi:", data); 
