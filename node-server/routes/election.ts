@@ -1,21 +1,35 @@
 import express from 'express';
 const Vote = require('../models/vote')
+const { v1: uuid } = require('uuid')
 import { solve, Vote } from "../solveLogic";
 
 const router = express.Router();
 
-router.post('/election', async (req, _res) => {
+router.post('/election', async (req, res) => {
   const body = req.body[0];
+  // am momentistvis uuids ar viyeneb ukve arsebuli vouterebis sanaxavad bazaSi.
+  const generatedId = uuid();
+  console.log("generirebuli id",generatedId);
   console.log('req body', body)
-
-  if(body.voter == "" || body.weight <= 0) return;
   
+  const voters = await Vote.find({});
+  const votersName = voters.find((v:any)=> JSON.parse(v.vote).voter === body.voter)
+
   const stringVote = JSON.stringify(body);
   console.log('dbString', stringVote)
 
-  const vote = new Vote({ vote: stringVote })
+  if(votersName) {
+    const voterChange = await Vote.findByIdAndUpdate(votersName._id, { vote: stringVote }, {new: true})  
+   return res.status(200).json(voterChange.vote);
+  }
 
-  await vote.save();
+  const vote = new Vote({ 
+    vote: stringVote,
+    id: generatedId
+  });
+
+ const newVoteSave =  await vote.save();
+ return res.status(200).json(newVoteSave.vote);
 
 });
 

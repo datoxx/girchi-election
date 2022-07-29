@@ -98,12 +98,9 @@ function App() {
     setFormData(res.formData);
     localStorage.setItem("electionInput", JSON.stringify(res.formData));
     console.log(res.formData);
-    const electionData = await axios.post("http://localhost:8888/election", formData);
+    const electionData = await axios.post("http://localhost:8888/election", res.formData);
     const data = electionData.data
-    console.log("pasuxi:", data);
-    setResult(
-      data
-    );
+    console.log("pasuxi:", data); 
   }
 
   return (
