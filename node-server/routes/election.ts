@@ -6,7 +6,7 @@ import { solve, Vote } from "../solveLogic";
 const router = express.Router();
 
 router.post('/election', async (req, res) => {
-  const body = req.body;
+  const body: any = req.body;
   // am momentistvis uuids ar viyeneb ukve arsebuli vouterebis sanaxavad bazaSi.
   const generatedId = uuid();
   console.log("generirebuli id",generatedId);
@@ -40,8 +40,9 @@ router.get('/calculate', async (_req, res) => {
   const voteObj = votes.map((v: any) => JSON.parse(v.vote));
   console.log('algoritmistvis', voteObj)
 
-  let response =  Array.from(solve((voteObj as any) as Array<Vote>)).join("\n")
-  console.log(response)
+  let response =  Array.from(solve((voteObj as any) as Array<Vote>)) 
+  .slice(-3)
+  console.log("algortimidan gamosuli",response)
   res.json(response);
 });
 
