@@ -33,6 +33,20 @@ router.post('/election', async (req, res) => {
 
 });
 
+router.get('/election/:id', async (req, res) => {
+  const reqId = req.params.id;
+  console.log('reqId', reqId)
+
+  const voters = await Vote.find({}, { vote: 1, id: 1, _id: 0 } );
+  const foundVoter: any = voters.find((v:any)=> v.id === reqId)
+
+  console.log( "napovni vouteri aidiT", foundVoter)
+ 
+  const responsObj = JSON.parse(foundVoter.vote);
+
+  res.json(responsObj);
+});
+
 router.get('/calculate', async (_req, res) => {
   const votes = await Vote.find({}, { vote: 1, _id: 0 } );
   console.log('bazidan amoReba', votes)
@@ -41,7 +55,7 @@ router.get('/calculate', async (_req, res) => {
   console.log('algoritmistvis', voteObj)
 
   let response =  Array.from(solve((voteObj as any) as Array<Vote>)) 
-  .slice(-3)
+  // .slice(-3)
   console.log("algortimidan gamosuli",response)
   res.json(response);
 });

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 
 import Form from "@rjsf/core";
-import ReactMarkdown from "react-markdown";
 
 
 const schema = {
@@ -74,33 +73,42 @@ const uiSchema = {
 };
 
 function App() {
-  const [result, setResult] = useState("");
   const [formData, setFormData] = useState([]);
-  useEffect(() => {
-    const jsonStr = localStorage.getItem("electionInput");
-    if (jsonStr == null) return;
-    setFormData(JSON.parse(jsonStr));
-  }, []);
+  const [id, setId] = useState("");
 
 
-  let sendElectionData = async (res:any) => {
-    setFormData(res.formData);
-    localStorage.setItem("electionInput", JSON.stringify(res.formData));
-    console.log('dasabmitebuli', res.formData);
+
+  let searchuder = async (res) => {   
+    res.preventDefault();
+    const getVoter = await axios.get(`http://localhost:8888/election/${id}`);
+
+    console.log('get pasuxi:', getVoter.data)
+    setFormData(getVoter.data);
+    setId("")
+  }
+
+  let sendElectionData = async (res) => {
     const electionData = await axios.post("http://localhost:8888/election", res.formData);
     const data = electionData.data
-    console.log("pasuxi:", data); 
+    console.log("post pasuxi:", data); 
   }
+
 
   return (
     <div className="App">
+      
+      <form onSubmit={searchuder}>
+        <input type="text" value={id} onChange={(e) => setId(e.target.value)}/>
+        <input type="submit" value="search user by id" />
+      </form>
+
       <Form
-        schema={schema as any}
+        schema={schema}
         uiSchema={uiSchema}
         formData={formData}
         onSubmit={sendElectionData}
       />
-      <ReactMarkdown source={result} />
+
     </div>
   );
 }
