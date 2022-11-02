@@ -26,7 +26,7 @@ router.post("/api", (req, res) => {
             .then(response => {
                 res.json(response.data);
             })
-            .catch(error => {
+            .catch(_error => {
                 res.json({"error": 'error retrieving token'});
             })
     }
@@ -38,7 +38,7 @@ router.post("/api", (req, res) => {
             .then(response => {
                 res.json(response.data);
             })
-            .catch(error => {
+            .catch(_error => {
                 res.json({"error": 'error refreshing token'});
             })
     }
